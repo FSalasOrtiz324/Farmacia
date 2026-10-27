@@ -1,0 +1,65 @@
+{% extends "mockups/_layout.html" %}{% load clp %}
+{% block content %}
+<div class="row g-3 mb-4">
+  <div class="col-6 col-lg-3"><div class="card kpi kpi-feature shadow-sm"><div class="card-body">
+    <div class="text-muted small">Ventas hoy</div><div class="h4 mb-0">{{ today.total|clp }}</div><div class="small text-muted">{{ today.sales }} ventas</div></div></div></div>
+  <div class="col-6 col-lg-3"><div class="card kpi shadow-sm"><div class="card-body">
+    <div class="text-muted small">Productos vendidos</div><div class="h4 mb-0">{{ today.items }}</div><div class="small text-muted">unidades hoy</div></div></div></div>
+  <div class="col-6 col-lg-3"><div class="card kpi shadow-sm" style="border-color:#fd7e14"><div class="card-body">
+    <div class="text-muted small">Stock bajo</div><div class="h4 mb-0">{{ low_stock|length }}</div><div class="small text-muted">5 unidades o menos</div></div></div></div>
+  <div class="col-6 col-lg-3"><div class="card kpi shadow-sm" style="border-color:#6f42c1"><div class="card-body">
+    <div class="text-muted small">Caja del día</div><div class="h4 mb-0 text-success" id="cash-state">Abierta</div><div class="small text-muted" id="cash-note">sin cierre todavía</div></div></div></div>
+</div>
+<div class="row g-3">
+  <div class="col-lg-7">
+    <div class="card shadow-sm"><div class="card-header bg-white fw-semibold"><i class="bi bi-exclamation-triangle text-warning"></i> Productos con stock bajo</div>
+      <ul class="list-group list-group-flush">
+        {% for p in low_stock %}<li class="list-group-item d-flex justify-content-between">
+          <span>{{ p.name }} <span class="small text-muted">· {{ p.presentation }}</span></span>
+          <span class="badge text-bg-{% if p.stock == 0 %}danger{% else %}warning{% endif %}">{% if p.stock == 0 %}Sin stock{% else %}{{ p.stock }} u.{% endif %}</span>
+        </li>{% endfor %}
+      </ul></div>
+  </div>
+  <div class="col-lg-5">
+    <div class="card shadow-sm"><div class="card-header bg-white fw-semibold">Accesos rápidos</div>
+      <div class="card-body d-grid gap-2">
+        <a class="btn btn-primary btn-lg" id="new-sale" href="{% url 'mockups:screen' 'pos' %}"><i class="bi bi-cart"></i> Nueva venta (F2)</a>
+        <button class="btn btn-outline-danger btn-lg" id="close-btn" data-bs-toggle="modal" data-bs-target="#closeModal"><i class="bi bi-lock"></i> Cerrar caja del día</button>
+        <a class="btn btn-outline-secondary" href="{% url 'mockups:screen' 'historial' %}"><i class="bi bi-calendar-check"></i> Ver cierres anteriores</a>
+      </div></div>
+  </div>
+</div>
+
+<div class="modal fade" id="closeModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content">
+  <div class="modal-header"><h2 class="modal-title h5">Cierre de caja · 24-10-2026</h2><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body">
+    <div class="row text-center g-2 mb-3">
+      <div class="col-4"><div class="border rounded p-2"><div class="small text-muted">Total</div><div class="fw-bold">{{ today.total|clp }}</div></div></div>
+      <div class="col-4"><div class="border rounded p-2"><div class="small text-muted">Ventas</div><div class="fw-bold">{{ today.sales }}</div></div></div>
+      <div class="col-4"><div class="border rounded p-2"><div class="small text-muted">Productos</div><div class="fw-bold">{{ today.items }}</div></div></div>
+    </div>
+    <div class="alert alert-warning small mb-0"><i class="bi bi-info-circle"></i> Al cerrar, estos números quedan guardados en el historial y el POS no recibe más ventas hasta mañana.</div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+    <button class="btn btn-danger" id="confirm-close" data-bs-dismiss="modal"><i class="bi bi-lock"></i> Confirmar cierre</button>
+  </div>
+</div></div></div>
+{% endblock %}
+{% block scripts %}
+<script>
+// Maqueta: solo cambia la pantalla, no guarda nada.
+document.getElementById('confirm-close').addEventListener('click', () => {
+  const state = document.getElementById('cash-state');
+  state.textContent = 'Cerrada';
+  state.classList.replace('text-success', 'text-danger');
+  document.getElementById('cash-note').textContent = 'cerrada a las 21:05';
+  const btn = document.getElementById('close-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="bi bi-check2"></i> Caja cerrada';
+  const sale = document.getElementById('new-sale');
+  sale.classList.add('disabled');
+  sale.setAttribute('aria-disabled', 'true');
+});
+</script>
+{% endblock %}

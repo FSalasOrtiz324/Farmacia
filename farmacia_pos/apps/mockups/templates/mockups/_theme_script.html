@@ -1,0 +1,18 @@
+<script>
+(() => {
+  const buttons = document.querySelectorAll('[data-set-theme]');
+  function sync() { buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.setTheme === document.documentElement.dataset.theme))); }
+  buttons.forEach(button => button.addEventListener('click', () => {
+    document.documentElement.dataset.theme = button.dataset.setTheme;
+    try { localStorage.setItem('farmacia-theme', button.dataset.setTheme); } catch {}
+    sync();
+  }));
+  sync();
+  document.querySelectorAll('table').forEach(table => {
+    if (table.closest('.table-responsive')) return;
+    const wrap = document.createElement('div'); wrap.className = 'table-responsive';
+    wrap.tabIndex = 0; wrap.setAttribute('role', 'region'); wrap.setAttribute('aria-label', 'Tabla desplazable');
+    table.before(wrap); wrap.append(table);
+  });
+})();
+</script>

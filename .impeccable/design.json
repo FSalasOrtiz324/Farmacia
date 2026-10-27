@@ -1,0 +1,348 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-27T01:55:51.682988+00:00",
+  "title": "Design System: Farmacia",
+  "extensions": {
+    "colorMeta": {
+      "ground": {
+        "role": "neutral",
+        "displayName": "Ground",
+        "tonalRamp": [
+          "oklch(15% 0.0125 207)",
+          "oklch(27% 0.025 207)",
+          "oklch(39% 0.025 207)",
+          "oklch(51% 0.025 207)",
+          "oklch(63% 0.025 207)",
+          "oklch(75% 0.025 207)",
+          "oklch(87% 0.0125 207)",
+          "oklch(95% 0.0125 207)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "tonalRamp": [
+          "oklch(15% 0.0125 216)",
+          "oklch(27% 0.025 216)",
+          "oklch(39% 0.025 216)",
+          "oklch(51% 0.025 216)",
+          "oklch(63% 0.025 216)",
+          "oklch(75% 0.025 216)",
+          "oklch(87% 0.0125 216)",
+          "oklch(95% 0.0125 216)"
+        ]
+      },
+      "surface-raised": {
+        "role": "neutral",
+        "displayName": "Surface Raised",
+        "tonalRamp": [
+          "oklch(15% 0.0125 0)",
+          "oklch(27% 0.025 0)",
+          "oklch(39% 0.025 0)",
+          "oklch(51% 0.025 0)",
+          "oklch(63% 0.025 0)",
+          "oklch(75% 0.025 0)",
+          "oklch(87% 0.0125 0)",
+          "oklch(95% 0.0125 0)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "tonalRamp": [
+          "oklch(15% 0.0125 212)",
+          "oklch(27% 0.025 212)",
+          "oklch(39% 0.025 212)",
+          "oklch(51% 0.025 212)",
+          "oklch(63% 0.025 212)",
+          "oklch(75% 0.025 212)",
+          "oklch(87% 0.0125 212)",
+          "oklch(95% 0.0125 212)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "tonalRamp": [
+          "oklch(15% 0.0125 209)",
+          "oklch(27% 0.025 209)",
+          "oklch(39% 0.025 209)",
+          "oklch(51% 0.025 209)",
+          "oklch(63% 0.025 209)",
+          "oklch(75% 0.025 209)",
+          "oklch(87% 0.0125 209)",
+          "oklch(95% 0.0125 209)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "tonalRamp": [
+          "oklch(15% 0.0125 209)",
+          "oklch(27% 0.025 209)",
+          "oklch(39% 0.025 209)",
+          "oklch(51% 0.025 209)",
+          "oklch(63% 0.025 209)",
+          "oklch(75% 0.025 209)",
+          "oklch(87% 0.0125 209)",
+          "oklch(95% 0.0125 209)"
+        ]
+      },
+      "nav": {
+        "role": "primary",
+        "displayName": "Nav",
+        "tonalRamp": [
+          "oklch(15% 0.0125 209)",
+          "oklch(27% 0.025 209)",
+          "oklch(39% 0.025 209)",
+          "oklch(51% 0.025 209)",
+          "oklch(63% 0.025 209)",
+          "oklch(75% 0.025 209)",
+          "oklch(87% 0.0125 209)",
+          "oklch(95% 0.0125 209)"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Accent",
+        "tonalRamp": [
+          "oklch(15% 0.04 185)",
+          "oklch(27% 0.08 185)",
+          "oklch(39% 0.08 185)",
+          "oklch(51% 0.08 185)",
+          "oklch(63% 0.08 185)",
+          "oklch(75% 0.08 185)",
+          "oklch(87% 0.04 185)",
+          "oklch(95% 0.04 185)"
+        ]
+      },
+      "cyan": {
+        "role": "primary",
+        "displayName": "Cyan",
+        "tonalRamp": [
+          "oklch(15% 0.04 181)",
+          "oklch(27% 0.08 181)",
+          "oklch(39% 0.08 181)",
+          "oklch(51% 0.08 181)",
+          "oklch(63% 0.08 181)",
+          "oklch(75% 0.08 181)",
+          "oklch(87% 0.04 181)",
+          "oklch(95% 0.04 181)"
+        ]
+      },
+      "blue": {
+        "role": "secondary",
+        "displayName": "Blue",
+        "tonalRamp": [
+          "oklch(15% 0.04 214)",
+          "oklch(27% 0.08 214)",
+          "oklch(39% 0.08 214)",
+          "oklch(51% 0.08 214)",
+          "oklch(63% 0.08 214)",
+          "oklch(75% 0.08 214)",
+          "oklch(87% 0.04 214)",
+          "oklch(95% 0.04 214)"
+        ]
+      },
+      "button-primary": {
+        "role": "primary",
+        "displayName": "Button Primary",
+        "tonalRamp": [
+          "oklch(15% 0.04 185)",
+          "oklch(27% 0.08 185)",
+          "oklch(39% 0.08 185)",
+          "oklch(51% 0.08 185)",
+          "oklch(63% 0.08 185)",
+          "oklch(75% 0.08 185)",
+          "oklch(87% 0.04 185)",
+          "oklch(95% 0.04 185)"
+        ]
+      },
+      "button-hover": {
+        "role": "primary",
+        "displayName": "Button Hover",
+        "tonalRamp": [
+          "oklch(15% 0.04 186)",
+          "oklch(27% 0.08 186)",
+          "oklch(39% 0.08 186)",
+          "oklch(51% 0.08 186)",
+          "oklch(63% 0.08 186)",
+          "oklch(75% 0.08 186)",
+          "oklch(87% 0.04 186)",
+          "oklch(95% 0.04 186)"
+        ]
+      },
+      "button-active": {
+        "role": "primary",
+        "displayName": "Button Active",
+        "tonalRamp": [
+          "oklch(15% 0.04 186)",
+          "oklch(27% 0.08 186)",
+          "oklch(39% 0.08 186)",
+          "oklch(51% 0.08 186)",
+          "oklch(63% 0.08 186)",
+          "oklch(75% 0.08 186)",
+          "oklch(87% 0.04 186)",
+          "oklch(95% 0.04 186)"
+        ]
+      }
+    },
+    "shadows": [
+      {
+        "name": "light",
+        "value": "0 7px 18px #18355216",
+        "purpose": "Shared ambient surface elevation."
+      },
+      {
+        "name": "dim",
+        "value": "0 8px 20px #0a21333b",
+        "purpose": "Shared ambient surface elevation."
+      },
+      {
+        "name": "dark",
+        "value": "0 8px 22px #00000029",
+        "purpose": "Shared ambient surface elevation."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile-max",
+        "value": "767px"
+      },
+      {
+        "name": "tablet-max",
+        "value": "991px"
+      },
+      {
+        "name": "report-grid-xl",
+        "value": "1200px"
+      },
+      {
+        "name": "wide-min",
+        "value": "1600px"
+      }
+    ],
+    "themes": {
+      "light": {
+        "selector": ":root",
+        "shadow": "0 7px 18px #18355216"
+      },
+      "dim": {
+        "selector": ":root[data-theme=\"dim\"]",
+        "overrides": {
+          "ground": "#869bb3",
+          "surface": "#e5edf7",
+          "surface-raised": "#f5f8fe",
+          "line": "#bccddd"
+        },
+        "shadow": "0 8px 20px #0a21333b"
+      },
+      "dark": {
+        "selector": ":root[data-theme=\"dark\"]",
+        "overrides": {
+          "ground": "#061b2b",
+          "surface": "#0b293d",
+          "surface-raised": "#10334c",
+          "ink": "#e8f4ff",
+          "muted": "#a4bfd0",
+          "line": "#24495e",
+          "accent": "#3ee4df",
+          "nav": "#071f31"
+        },
+        "shadow": "0 8px 22px #00000029"
+      }
+    },
+    "persistence": {
+      "attribute": "html[data-theme]",
+      "storageKey": "farmacia-theme",
+      "values": [
+        "light",
+        "dim",
+        "dark"
+      ],
+      "fallback": "light",
+      "selector": "[data-set-theme]",
+      "selectedAttribute": "aria-pressed"
+    },
+    "source": {
+      "theme": "farmacia_pos/apps/mockups/templates/mockups/_theme.html",
+      "script": "farmacia_pos/apps/mockups/templates/mockups/_theme_script.html",
+      "export": "farmacia_pos/apps/mockups/management/commands/export_mockups.py",
+      "consistency": "Regenerate static exports after template changes; verify all three themes and relative navigation."
+    },
+    "motion": []
+  },
+  "components": [
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "description": "Primary button using the implemented pharmacy theme.",
+      "html": "<button class=\"ds-primary\">Ingresar</button>",
+      "css": ".ds-primary{background:#087f8a;color:#fff;border:1px solid #087f8a;border-radius:10px;font:600 .85rem \"Segoe UI\",system-ui,sans-serif;padding:.6rem .95rem}.ds-primary:hover{background:#066975}.ds-primary:active{background:#055e68}.ds-primary:focus-visible{outline:3px solid var(--accent,#007e8a);outline-offset:3px}",
+      "refersTo": "button-primary"
+    },
+    {
+      "name": "Secondary button",
+      "kind": "button",
+      "description": "Secondary button using the implemented pharmacy theme.",
+      "html": "<button class=\"ds-secondary\">Exportar</button>",
+      "css": ".ds-secondary{background:transparent;color:var(--ink,#152c46);border:1px solid var(--line,#ccdae7);border-radius:10px;padding:.6rem .95rem;font:600 .85rem \"Segoe UI\",system-ui,sans-serif}.ds-secondary:hover,.ds-secondary:active{background:var(--nav,#102b45);color:#eaf8ff}.ds-secondary:focus-visible{outline:3px solid var(--accent,#007e8a);outline-offset:3px}"
+    },
+    {
+      "name": "Text field",
+      "kind": "input",
+      "description": "Text field using the implemented pharmacy theme.",
+      "html": "<label class=\"ds-label\" for=\"ds-user\">Usuario</label><input class=\"ds-input\" id=\"ds-user\" placeholder=\"Usuario\">",
+      "css": ".ds-label{display:block;font:.82rem \"Segoe UI\",system-ui,sans-serif}.ds-input{background:var(--surface-raised,#fff);color:var(--ink,#152c46);border:1px solid var(--line,#ccdae7);border-radius:10px;padding:.65rem .8rem;font:.9rem \"Segoe UI\",system-ui,sans-serif}.ds-input::placeholder{color:var(--muted,#536c83)}.ds-input:focus{border-color:var(--accent,#007e8a);box-shadow:0 0 0 3px #0ab7c122}.ds-input:focus-visible{outline:3px solid var(--accent,#007e8a);outline-offset:3px}"
+    },
+    {
+      "name": "Navigation item",
+      "kind": "nav",
+      "description": "Navigation item using the implemented pharmacy theme.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-current\" href=\"#inicio\" aria-current=\"page\">Inicio</a><a href=\"#ventas\">Ventas</a></nav>",
+      "css": ".ds-nav{background:var(--nav,#102b45);padding:10px;border-radius:22px}.ds-nav a{display:block;padding:10px 14px;border-radius:10px;margin:3px 0;color:#b6cddb;text-decoration:none;font:.85rem \"Segoe UI\",system-ui,sans-serif}.ds-nav a:hover{background:#183c53;color:#fff}.ds-nav .ds-current{background:#16455e;color:#6bf3ef;font-weight:600}.ds-nav a:focus-visible{outline:3px solid var(--accent,#007e8a);outline-offset:3px}"
+    },
+    {
+      "name": "Status badge",
+      "kind": "chip",
+      "description": "Status badge using the implemented pharmacy theme.",
+      "html": "<span class=\"ds-badge\">Disponible</span>",
+      "css": ".ds-badge{display:inline-block;background:#c9f3ea;color:#075b53;font:600 .75rem/1.25 \"Segoe UI\",system-ui,sans-serif;border-radius:6px;padding:.45em .65em}"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "description": "Card using the implemented pharmacy theme.",
+      "html": "<section class=\"ds-card\"><h2 class=\"ds-card-title\">Venta neta</h2><p>$4.573.800</p></section>",
+      "css": ".ds-card{background:var(--surface,#f5f9ff);color:var(--ink,#152c46);border:0;border-radius:18px;padding:22px;box-shadow:var(--shadow,0 7px 18px #18355216);font:.9rem/1.55 \"Segoe UI\",system-ui,sans-serif;font-variant-numeric:tabular-nums}.ds-card-title{font-size:.82rem;color:var(--muted,#536c83);font-weight:400;margin:0}.ds-card p{margin:9px 0 5px;font-size:1.85rem;font-weight:650;letter-spacing:-.035em}",
+      "refersTo": "card"
+    }
+  ],
+  "narrative": {
+    "northStar": "Calm pharmacy workspace",
+    "overview": "Navy navigation anchors a cool, spacious workspace. Turquoise marks actions and selected states; blue supports charts. Soft, rounded cards separate operational information with ambient shadows. Light, dim and dark variants preserve the same hierarchy.",
+    "keyCharacteristics": [
+      "Navy navigation and turquoise actions.",
+      "Soft raised cards over cool backgrounds.",
+      "Compact operational typography and aligned numbers.",
+      "Three persistent appearance variants."
+    ],
+    "rules": [
+      {
+        "name": "The Semantic Surface Rule",
+        "body": "Use the theme variables for backgrounds, text and borders so every screen follows the selected appearance.",
+        "section": "colors"
+      }
+    ],
+    "dos": [
+      "Do reuse semantic CSS variables across all three themes.",
+      "Do keep tables and charts horizontally scrollable when their content needs more room.",
+      "Do regenerate the static export after changing Django templates."
+    ],
+    "donts": [
+      "Don't hard-code light surfaces into new components.",
+      "Don't replace visible data labels with color alone.",
+      "Don't edit generated export pages as the primary source."
+    ]
+  }
+}

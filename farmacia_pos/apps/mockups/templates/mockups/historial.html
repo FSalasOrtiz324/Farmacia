@@ -1,0 +1,74 @@
+{% extends "mockups/_layout.html" %}
+{% block content %}
+<style>
+  .cal { display:grid; grid-template-columns:repeat(7, minmax(0, 1fr)); gap:6px; }
+  .cal-head { font-size:.75rem; color:var(--bs-secondary-color); text-align:center; padding-bottom:2px; }
+  .cal-day { min-height:68px; border:1px solid var(--bs-border-color); border-radius:10px; padding:6px; text-align:left;
+             background:transparent; color:inherit; display:flex; flex-direction:column; justify-content:space-between; }
+  .cal-day.has { cursor:pointer; }
+  .cal-day.has:hover { border-color:#087f8a; }
+  .cal-day.sel { border-color:#087f8a; box-shadow:0 0 0 2px #087f8a55; }
+  .cal-day.none { opacity:.45; }
+  .cal-amount { font-size:.72rem; color:#087f8a; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  @media (max-width:576px) { .cal-day { min-height:48px; } .cal-amount { display:none; } .cal-day.has .cal-num::after { content:" •"; color:#087f8a; } }
+</style>
+<div class="row g-3">
+  <div class="col-lg-8"><div class="card shadow-sm"><div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <button class="btn btn-sm btn-outline-secondary" id="prev" aria-label="Mes anterior"><i class="bi bi-chevron-left"></i></button>
+      <h2 class="h6 mb-0 text-capitalize" id="month-label"></h2>
+      <button class="btn btn-sm btn-outline-secondary" id="next" aria-label="Mes siguiente"><i class="bi bi-chevron-right"></i></button>
+    </div>
+    <div class="cal mb-1">{% for d in "LMMJVSD" %}<div class="cal-head">{{ d }}</div>{% endfor %}</div>
+    <div class="cal" id="cal"></div>
+  </div></div></div>
+  <div class="col-lg-4"><div class="card shadow-sm"><div class="card-body" id="detail">
+    <div class="text-muted small">Selecciona un día con cierre para ver su resumen.</div>
+  </div></div></div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+const CLOSINGS = Object.fromEntries({{ closings_json|safe }}.map(c => [c.date, c]));
+const clp = n => '$' + n.toLocaleString('es-CL');
+let view = new Date(2026, 9, 1);
+let selected = null;
+
+function render() {
+  const y = view.getFullYear(), m = view.getMonth();
+  document.getElementById('month-label').textContent = view.toLocaleDateString('es-CL', {month: 'long', year: 'numeric'});
+  const cal = document.getElementById('cal');
+  cal.innerHTML = '';
+  const offset = (new Date(y, m, 1).getDay() + 6) % 7;  // lunes primero
+  for (let i = 0; i < offset; i++) cal.appendChild(document.createElement('div'));
+  const days = new Date(y, m + 1, 0).getDate();
+  for (let d = 1; d <= days; d++) {
+    const key = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    const c = CLOSINGS[key];
+    const el = document.createElement('button');
+    el.type = 'button';
+    el.className = 'cal-day ' + (c ? 'has' : 'none') + (key === selected ? ' sel' : '');
+    el.disabled = !c;
+    el.innerHTML = `<span class="cal-num small fw-semibold">${d}</span>` + (c ? `<span class="cal-amount">${clp(c.total)}</span>` : '');
+    if (c) el.addEventListener('click', () => { selected = key; render(); show(c, d); });
+    cal.appendChild(el);
+  }
+}
+
+function show(c, d) {
+  const label = new Date(c.date + 'T12:00').toLocaleDateString('es-CL', {weekday: 'long', day: 'numeric', month: 'long'});
+  document.getElementById('detail').innerHTML = `
+    <h3 class="h6 text-capitalize mb-3">${label}</h3>
+    <div class="text-muted small">Dinero cerrado</div><div class="h3 mb-3">${clp(c.total)}</div>
+    <div class="row g-2 mb-3">
+      <div class="col-6"><div class="border rounded p-2"><div class="small text-muted">Ventas</div><div class="fw-bold fs-5">${c.sales}</div></div></div>
+      <div class="col-6"><div class="border rounded p-2"><div class="small text-muted">Productos</div><div class="fw-bold fs-5">${c.items}</div></div></div>
+    </div>
+    <div class="small text-muted">Cerrado por ${c.closed_by} a las ${c.closed_at}</div>`;
+}
+
+document.getElementById('prev').addEventListener('click', () => { view.setMonth(view.getMonth() - 1); render(); });
+document.getElementById('next').addEventListener('click', () => { view.setMonth(view.getMonth() + 1); render(); });
+render();
+</script>
+{% endblock %}

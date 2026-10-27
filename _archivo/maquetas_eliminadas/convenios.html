@@ -1,0 +1,14 @@
+{% extends "mockups/_layout.html" %}{% load clp %}
+{% block content %}
+<div class="alert alert-light border small"><i class="bi bi-info-circle"></i> No existe una API universal de convenios por RUT. Cada convenio define su forma de validación y quién financia el beneficio.</div>
+<div class="row g-3">
+  {% for a in agreements %}<div class="col-md-6"><div class="card shadow-sm h-100"><div class="card-body">
+    <div class="d-flex justify-content-between"><h2 class="h6">{{ a.name }}</h2><span class="badge text-bg-{% if a.status == 'Vigente' %}success{% else %}secondary{% endif %}">{{ a.status }}</span></div>
+    <dl class="row small mb-0"><dt class="col-5">Beneficio</dt><dd class="col-7">{{ a.benefit }}</dd><dt class="col-5">Financia</dt><dd class="col-7">{{ a.funder }}</dd>
+      <dt class="col-5">Vigencia</dt><dd class="col-7">{{ a.valid }}</dd><dt class="col-5">Validación</dt><dd class="col-7">{{ a.validation }}</dd></dl>
+  </div></div></div>{% endfor %}
+</div>
+<div class="card shadow-sm mt-3"><div class="card-header bg-white fw-semibold">Por recuperar (beneficios financiados por terceros)</div>
+  <table class="table mb-0 small"><thead><tr><th>Convenio</th><th>Periodo</th><th class="text-end">Aplicado</th><th class="text-end">Rechazado</th><th>Estado</th></tr></thead>
+  <tbody><tr><td>Programa Laboratorio Demo</td><td>10-2026</td><td class="text-end">{{ 48700|clp }}</td><td class="text-end">{{ 3200|clp }}</td><td><span class="badge text-bg-warning">Por liquidar</span></td></tr></tbody></table></div>
+{% endblock %}

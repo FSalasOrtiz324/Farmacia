@@ -1,0 +1,45 @@
+{% extends "mockups/_layout.html" %}{% load clp %}
+{% block content %}
+<div class="d-flex flex-wrap gap-2 mb-3"><select class="form-select" style="max-width:220px"><option>Octubre 2026</option></select><button class="btn btn-outline-secondary ms-auto"><i class="bi bi-download"></i> Exportar (queda auditado)</button></div>
+<div class="row g-3 mb-3">
+  <div class="col-6 col-lg-3"><div class="card shadow-sm"><div class="card-body"><div class="small text-muted">Venta bruta</div><div class="h5 mb-0">{{ 4825000|clp }}</div></div></div></div>
+  <div class="col-6 col-lg-3"><div class="card shadow-sm"><div class="card-body"><div class="small text-muted">Descuentos y beneficios</div><div class="h5 mb-0">−{{ 212300|clp }}</div></div></div></div>
+  <div class="col-6 col-lg-3"><div class="card shadow-sm"><div class="card-body"><div class="small text-muted">Devoluciones</div><div class="h5 mb-0">−{{ 38900|clp }}</div></div></div></div>
+  <div class="col-6 col-lg-3"><div class="card shadow-sm"><div class="card-body"><div class="small text-muted">Venta neta</div><div class="h5 mb-0">{{ 4573800|clp }}</div></div></div></div>
+</div>
+<div class="row g-3 mb-3">
+  <div class="col-xl-7"><section class="card shadow-sm h-100" aria-labelledby="distribution-title">
+    <div class="card-header fw-semibold" id="distribution-title">Distribución de venta neta</div>
+    <div class="card-body report-chart">
+      <div class="donut" role="img" aria-label="Venta neta por laboratorio: A 46,8%; B 32,4%; C 20,9%">
+        <div class="donut-center"><strong>{{ 4573800|clp }}</strong><span class="small text-muted">Venta neta</span></div>
+      </div>
+      <ul class="chart-legend">
+        <li><span class="chart-dot" style="--swatch:#163750"></span>Laboratorio A<strong>46,8%</strong></li>
+        <li><span class="chart-dot" style="--swatch:#1bc5cc"></span>Laboratorio B<strong>32,4%</strong></li>
+        <li><span class="chart-dot" style="--swatch:#5999d7"></span>Laboratorio C<strong>20,9%</strong></li>
+      </ul>
+    </div>
+  </section></div>
+  <div class="col-xl-5"><section class="card shadow-sm h-100" aria-labelledby="sales-title">
+    <div class="card-header fw-semibold" id="sales-title">De venta bruta a venta neta</div>
+    <div class="card-body">
+      <div class="chart-scroll"><div class="net-chart" role="img" aria-label="Venta bruta $4.825.000, descuentos $212.300, devoluciones $38.900 y venta neta $4.573.800">
+        <div style="--height:82%"><strong>$4.825.000</strong><span>Bruta</span></div>
+        <div style="--height:3.61%"><strong>$212.300</strong><span>Descuentos</span></div>
+        <div style="--height:.66%"><strong>$38.900</strong><span>Devol.</span></div>
+        <div style="--height:77.73%"><strong>$4.573.800</strong><span>Neta</span></div>
+      </div>
+      </div><p class="small text-muted mb-0">Octubre 2026 · datos de demostración</p>
+    </div>
+  </section></div>
+</div>
+<div class="card shadow-sm"><div class="card-header bg-white fw-semibold">Margen por laboratorio (costo histórico de la venta)</div>
+  <table class="table mb-0"><thead class="table-light"><tr><th>Laboratorio</th><th class="text-end">Venta neta</th><th class="text-end">Costo</th><th class="text-end">Margen</th><th style="width:30%"></th></tr></thead>
+  <tbody>
+    <tr><td>Laboratorio Ficticio A</td><td class="text-end">{{ 2140000|clp }}</td><td class="text-end">{{ 1390000|clp }}</td><td class="text-end">35,0%</td><td><div class="progress"><div class="progress-bar" style="width:35%"></div></div></td></tr>
+    <tr><td>Laboratorio Ficticio B</td><td class="text-end">{{ 1480000|clp }}</td><td class="text-end">{{ 1050000|clp }}</td><td class="text-end">29,1%</td><td><div class="progress"><div class="progress-bar" style="width:29%"></div></div></td></tr>
+    <tr><td>Laboratorio Ficticio C</td><td class="text-end">{{ 953800|clp }}</td><td class="text-end">{{ 710000|clp }}</td><td class="text-end">25,6%</td><td><div class="progress"><div class="progress-bar" style="width:26%"></div></div></td></tr>
+  </tbody></table></div>
+<p class="small text-muted mt-2">Ventas, dinero recibido, margen y cuentas por cobrar se informan por separado.</p>
+{% endblock %}

@@ -1,0 +1,3 @@
+{% if lot.status == "Disponible" %}<span class="badge text-bg-success">Disponible</span>
+{% elif lot.status == "Cuarentena" %}<span class="badge text-bg-warning">Cuarentena</span>
+{% else %}<span class="badge text-bg-danger">{{ lot.status }}</span>{% endif %}

@@ -1,0 +1,9 @@
+# Sitio de maquetas generado (se publica con GitHub Actions desde farmacia_pos)
+farmacia-maquetas/
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.local
+*.sqlite3
+.ruff_cache/

@@ -1,0 +1,42 @@
+{% extends "mockups/_layout.html" %}
+{% block content %}
+<div class="row g-3">
+  <div class="col-lg-5"><div class="card shadow-sm"><div class="card-header bg-white d-flex justify-content-between"><span class="fw-semibold">Transferencias</span><button class="btn btn-sm btn-primary"><i class="bi bi-plus"></i> Nueva</button></div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><div class="d-flex justify-content-between"><strong>TR-0008</strong><span class="badge text-bg-warning">En tránsito</span></div>
+        <div class="small text-muted">Demo Centro → Demo Norte · 2 líneas · despachada 24-10-2026 08:30</div></li>
+      <li class="list-group-item"><div class="d-flex justify-content-between"><strong>TR-0007</strong><span class="badge text-bg-danger">Recibida con diferencia</span></div>
+        <div class="small text-muted">Demo Norte → Demo Centro · 3 líneas · −1 u. pendiente de aclarar</div></li>
+      <li class="list-group-item"><div class="d-flex justify-content-between"><strong>TR-0006</strong><span class="badge text-bg-success">Recibida</span></div>
+        <div class="small text-muted">Bodega → Sala de ventas (Demo Centro) · 5 líneas</div></li>
+    </ul></div></div>
+  <div class="col-lg-7"><div class="card shadow-sm"><div class="card-header bg-white fw-semibold">Recepción de TR-0008 en Sucursal Demo Norte</div><div class="card-body">
+    <div class="d-flex align-items-center gap-2 small mb-3 flex-wrap">
+      <span class="badge rounded-pill text-bg-success">1. Borrador</span><i class="bi bi-chevron-right"></i>
+      <span class="badge rounded-pill text-bg-success">2. Despachada (salida en origen)</span><i class="bi bi-chevron-right"></i>
+      <span class="badge rounded-pill text-bg-warning">3. En tránsito</span><i class="bi bi-chevron-right"></i>
+      <span class="badge rounded-pill text-bg-light border">4. Recibida (entrada en destino)</span>
+    </div>
+    <table class="table table-sm align-middle"><thead><tr><th>Producto / lote</th><th class="text-center">Enviado</th><th style="width:100px">Recibido</th><th class="text-center">Dif.</th></tr></thead>
+      <tbody>
+        <tr><td>Paracetamol Demo 500 mg<div class="small text-muted">L-A145 · venc. 30-08-2027</div></td><td class="text-center">10</td>
+          <td><input type="number" class="form-control form-control-sm tr-rec" data-sent="10" value="10"></td><td class="text-center tr-diff"></td></tr>
+        <tr><td>Ibuprofeno Demo 400 mg<div class="small text-muted">L-B220 · venc. 01-02-2027</div></td><td class="text-center">2</td>
+          <td><input type="number" class="form-control form-control-sm tr-rec" data-sent="2" value="1"></td><td class="text-center tr-diff"></td></tr>
+      </tbody></table>
+    <div id="tr-warn" class="alert alert-warning small d-none"><i class="bi bi-exclamation-triangle"></i> Hay diferencias. Se registrarán explícitamente y quedarán pendientes de aclarar; el stock no se ajusta en silencio.</div>
+    <div class="mb-3"><label class="form-label small">Observación</label><textarea class="form-control" rows="2" placeholder="Ej.: caja dañada en traslado"></textarea></div>
+    <button class="btn btn-success">Confirmar recepción</button>
+    <div class="small text-muted mt-2">La salida del origen y la entrada al destino quedan vinculadas en el historial de movimientos.</div>
+  </div></div></div>
+</div>
+{% endblock %}
+{% block scripts %}<script>
+(() => {
+  const upd = () => { let any = false; document.querySelectorAll(".tr-rec").forEach(i => {
+    const d = (+i.value || 0) - +i.dataset.sent, c = i.closest("tr").querySelector(".tr-diff");
+    c.textContent = d ? (d > 0 ? "+" : "") + d : "—"; c.className = "text-center tr-diff " + (d ? "text-danger fw-bold" : "text-muted"); if (d) any = true; });
+    document.getElementById("tr-warn").classList.toggle("d-none", !any); };
+  document.querySelectorAll(".tr-rec").forEach(i => i.addEventListener("input", upd)); upd();
+})();
+</script>{% endblock %}

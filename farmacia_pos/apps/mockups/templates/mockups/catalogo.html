@@ -1,0 +1,47 @@
+{% extends "mockups/_layout.html" %}{% load clp %}
+{% block content %}
+<div class="d-flex flex-wrap gap-2 mb-3">
+  <input class="form-control" style="max-width:360px" placeholder="Buscar por nombre, SKU o código de barras">
+  <select class="form-select" style="max-width:200px"><option>Todo el stock</option><option>Stock bajo</option><option>Sin stock</option></select>
+  <button class="btn btn-primary ms-auto" data-bs-toggle="modal" data-bs-target="#productModal"><i class="bi bi-plus"></i> Nuevo producto</button>
+</div>
+<div class="card shadow-sm"><div class="table-responsive"><table class="table table-hover mb-0 align-middle">
+  <thead class="table-light"><tr><th>SKU</th><th>Producto / presentación</th><th>Cond.</th><th class="text-end">Precio</th><th class="text-end">Stock</th><th></th></tr></thead>
+  <tbody>{% for p in products %}<tr>
+    <td class="small">{{ p.sku }}</td><td><div class="fw-semibold">{{ p.name }}</div><div class="small text-muted">{{ p.presentation }}</div></td>
+    <td>{% include "mockups/_condition.html" %}</td><td class="text-end">{{ p.price|clp }}</td>
+    <td class="text-end"><span class="badge text-bg-{% if p.stock == 0 %}danger{% elif p.stock <= 5 %}warning{% else %}light border{% endif %}">{{ p.stock }} u.</span></td>
+    <td class="text-end text-nowrap">
+      <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#productModal">Editar</button>
+      <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#stockModal">Ajustar stock</button>
+    </td></tr>{% endfor %}
+  </tbody></table></div></div>
+
+<div class="modal fade" id="productModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content">
+  <div class="modal-header"><h2 class="modal-title h5">Producto</h2><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body">
+    <div class="mb-2"><label class="form-label small">Nombre</label><input class="form-control" value="Amoxicilina Demo 500 mg"></div>
+    <div class="mb-2"><label class="form-label small">Presentación</label><input class="form-control" value="Caja 21 cápsulas"></div>
+    <div class="row g-2 mb-2">
+      <div class="col"><label class="form-label small">SKU</label><input class="form-control" value="DEMO-0003"></div>
+      <div class="col"><label class="form-label small">Código de barras</label><input class="form-control" value="7800000000035"></div>
+    </div>
+    <div class="row g-2">
+      <div class="col"><label class="form-label small">Precio</label><input type="number" class="form-control" value="4590"></div>
+      <div class="col"><label class="form-label small">Condición de venta</label><select class="form-select"><option>VD — Venta directa</option><option selected>R — Receta simple</option><option>RR — Receta retenida</option><option>RCH — Receta cheque</option></select></div>
+    </div>
+  </div>
+  <div class="modal-footer"><button class="btn btn-primary" data-bs-dismiss="modal">Guardar</button></div>
+</div></div></div>
+
+<div class="modal fade" id="stockModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content">
+  <div class="modal-header"><h2 class="modal-title h5">Ajustar stock · Amoxicilina Demo 500 mg</h2><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body">
+    <div class="small text-muted mb-2">Stock actual en sistema: <strong>18 u.</strong></div>
+    <div class="mb-2"><label class="form-label small">Movimiento</label><select class="form-select"><option>Entrada (llegó mercadería)</option><option>Corrección por conteo</option><option>Salida (merma / vencido)</option></select></div>
+    <div class="mb-2"><label class="form-label small">Cantidad</label><input type="number" class="form-control" value="24"></div>
+    <div><label class="form-label small">Nota (opcional)</label><input class="form-control" placeholder="Ej.: factura proveedor 1234"></div>
+  </div>
+  <div class="modal-footer"><button class="btn btn-primary" data-bs-dismiss="modal">Guardar ajuste</button></div>
+</div></div></div>
+{% endblock %}

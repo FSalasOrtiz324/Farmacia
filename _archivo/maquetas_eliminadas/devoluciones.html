@@ -1,0 +1,59 @@
+{% extends "mockups/_layout.html" %}{% load clp %}
+{% block content %}
+<div class="card shadow-sm mb-3"><div class="card-body">
+  <label class="form-label fw-semibold">Buscar venta o documento original</label>
+  <div class="input-group" style="max-width:520px"><input class="form-control" value="V-000230"><button class="btn btn-primary"><i class="bi bi-search"></i> Buscar</button></div>
+</div></div>
+<div class="row g-3">
+  <div class="col-lg-8"><div class="card shadow-sm">
+    <div class="card-header bg-white d-flex justify-content-between">
+      <span class="fw-semibold">Venta V-000230 · 24-10-2026 10:22 · Cajero Demo</span>
+      <span class="badge text-bg-light border">Documento: Aceptado (simulado)</span>
+    </div>
+    <div class="table-responsive"><table class="table align-middle mb-0">
+      <thead class="table-light"><tr><th>Producto / lote</th><th class="text-center">Vendido</th><th style="width:100px">Devolver</th><th style="width:220px">Destino del producto</th><th class="text-end">Monto</th></tr></thead>
+      <tbody>
+        <tr><td><div class="fw-semibold">Amoxicilina Demo 500 mg</div><div class="small text-muted">Lote L-A330 · venc. 20-11-2026</div></td><td class="text-center">2</td>
+          <td><input type="number" class="form-control form-control-sm ret-qty" min="0" max="2" value="1" data-price="4590"></td>
+          <td><select class="form-select form-select-sm"><option>Cuarentena (evaluar)</option><option>Stock vendible</option><option>Baja / destrucción</option></select></td>
+          <td class="text-end ret-amount"></td></tr>
+        <tr><td><div class="fw-semibold">Paracetamol Demo 500 mg</div><div class="small text-muted">Lote L-A101 · venc. 15-12-2026</div></td><td class="text-center">2</td>
+          <td><input type="number" class="form-control form-control-sm ret-qty" min="0" max="2" value="0" data-price="1990"></td>
+          <td><select class="form-select form-select-sm"><option>Cuarentena (evaluar)</option><option>Stock vendible</option><option>Baja / destrucción</option></select></td>
+          <td class="text-end ret-amount"></td></tr>
+      </tbody></table></div>
+    <div class="card-body border-top small text-muted">
+      <i class="bi bi-info-circle"></i> Que se devuelva el dinero no significa que el medicamento vuelva al stock vendible. El destino lo autoriza un QF y queda registrado como movimiento de inventario.
+    </div>
+  </div></div>
+  <div class="col-lg-4"><div class="card shadow-sm"><div class="card-body">
+    <div class="mb-2"><label class="form-label small">Motivo (obligatorio)</label>
+      <select class="form-select"><option value="">— Seleccione —</option><option>Error en la venta</option><option>Producto defectuoso</option><option>Cambio de indicación médica</option><option>Otro</option></select></div>
+    <div class="mb-2"><label class="form-label small">Reintegro por</label>
+      <select class="form-select"><option>Mismo medio de pago (tarjeta)</option><option>Efectivo desde caja</option></select></div>
+    <div class="mb-3"><label class="form-label small">Autoriza</label><select class="form-select"><option>QF Demo</option><option>Admin Demo</option></select></div>
+    <div class="d-flex justify-content-between fs-5 fw-bold"><span>A reintegrar</span><span id="ret-total">$0</span></div>
+    <div class="small text-muted mb-3">Documento de corrección: nota de crédito (pendiente — adaptador simulado). El documento original no se borra.</div>
+    <button class="btn btn-danger w-100" data-bs-toggle="modal" data-bs-target="#retDone"><i class="bi bi-arrow-return-left"></i> Registrar devolución</button>
+  </div></div></div>
+</div>
+<div class="modal fade" id="retDone" tabindex="-1"><div class="modal-dialog"><div class="modal-content">
+  <div class="modal-header"><h2 class="modal-title h5">Devolución DEV-0019 registrada (simulada)</h2><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body small"><ul class="mb-0">
+    <li>Vinculada a la venta V-000230 · venta en estado <strong>Devuelta parcial</strong></li>
+    <li>Reintegro: <span class="badge text-bg-secondary">Pendiente en terminal (simulado)</span></li>
+    <li>Nota de crédito: <span class="badge text-bg-secondary">Pendiente — adaptador simulado</span></li>
+    <li>Movimiento de inventario: +1 al lote L-A330 en <strong>Cuarentena</strong></li>
+  </ul></div>
+</div></div></div>
+{% endblock %}
+{% block scripts %}<script>
+(() => {
+  const fmt = n => "$" + Math.round(n).toLocaleString("es-CL");
+  const upd = () => { let t = 0; document.querySelectorAll(".ret-qty").forEach(i => {
+    const q = Math.min(Math.max(+i.value || 0, 0), +i.max), a = q * +i.dataset.price; t += a;
+    i.closest("tr").querySelector(".ret-amount").textContent = fmt(a); });
+    document.getElementById("ret-total").textContent = fmt(t); };
+  document.querySelectorAll(".ret-qty").forEach(i => i.addEventListener("input", upd)); upd();
+})();
+</script>{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "mockups/_layout.html" %}
+{% block content %}
+<div class="alert alert-secondary small"><i class="bi bi-shield-lock"></i> Acceso restringido a químico farmacéutico / DT. Cada consulta queda registrada en auditoría. Integración SNRE: <strong>no confirmada</strong> — registro manual.</div>
+<div class="row g-3">
+  <div class="col-lg-7"><div class="card shadow-sm"><table class="table table-hover mb-0">
+    <thead class="table-light"><tr><th>Folio</th><th>Tipo</th><th>Origen</th><th>Fecha</th><th>Validación</th><th>Dispensación</th></tr></thead>
+    <tbody>{% for r in prescriptions %}<tr><td class="fw-semibold">{{ r.folio }}</td><td>{{ r.type }}</td><td>{{ r.origin }}</td><td>{{ r.date }}</td>
+      <td><span class="badge text-bg-{% if r.status == 'Validada' %}success{% elif r.status == 'Rechazada' %}danger{% else %}warning{% endif %}">{{ r.status }}</span></td><td>{{ r.dispensed }}</td></tr>{% endfor %}</tbody></table></div></div>
+  <div class="col-lg-5"><div class="card shadow-sm"><div class="card-header bg-white fw-semibold">Validar RX-DEMO-0102 (receta retenida)</div><div class="card-body small">
+    <p class="mb-2">Producto: <strong>Insulina Demo</strong> · prescrito: 2 · disponible vendible: 0 <span class="badge text-bg-warning">lote en cuarentena</span></p>
+    <div class="form-check"><input class="form-check-input" type="checkbox" id="c1"><label class="form-check-label" for="c1">Receta legible y completa</label></div>
+    <div class="form-check"><input class="form-check-input" type="checkbox" id="c2"><label class="form-check-label" for="c2">Dentro de vigencia</label></div>
+    <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="c3"><label class="form-check-label" for="c3">Original retenido y archivado</label></div>
+    <p class="text-muted">Lista de verificación de ejemplo: los requisitos reales los define el director técnico según la normativa vigente (RX-01).</p>
+    <div class="d-flex gap-2"><button class="btn btn-success" disabled>Validar y dispensar</button><button class="btn btn-outline-danger">Rechazar con motivo</button></div>
+  </div></div>
+  <div class="card shadow-sm mt-3"><div class="card-header bg-white fw-semibold">Libro de controlados — Producto Controlado Demo</div>
+    <table class="table table-sm mb-0 small"><thead><tr><th>Fecha</th><th>Movimiento</th><th>Lote</th><th class="text-end">Cant.</th><th class="text-end">Saldo</th></tr></thead>
+    <tbody><tr><td>15-10-2026</td><td>Recepción</td><td>L-C077</td><td class="text-end">+10</td><td class="text-end">10</td></tr>
+      <tr><td>20-10-2026</td><td>Dispensación RX-DEMO-0090</td><td>L-C077</td><td class="text-end">−4</td><td class="text-end">6</td></tr></tbody></table></div>
+  </div>
+</div>
+{% endblock %}

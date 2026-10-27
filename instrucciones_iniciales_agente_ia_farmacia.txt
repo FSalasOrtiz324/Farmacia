@@ -1,0 +1,48 @@
+INSTRUCCIONES PARA EL AGENTE DE IA PROGRAMADOR
+Proyecto: Sistema POS y administración para una farmacia en Chile
+
+ANTES DE PROGRAMAR
+1. Lee completo el archivo plan_maestro_sistema_farmacia_chile.md. El PDF original analisis_integral_farmacia_chile.pdf es la fuente de requisitos funcionales; el plan maestro organiza esos requisitos para implementarlos.
+2. Resume en una respuesta breve la arquitectura elegida, los módulos y las puertas de validación. Identifica decisiones pendientes, pero no bloquees el trabajo por datos que todavía puedan mantenerse como configuración o mock de desarrollo.
+3. No generes toda la aplicación en una sola respuesta. Sigue el backlog por ID y dependencia; implementa una tarea o un grupo pequeño de tareas estrechamente relacionadas cada vez.
+
+ARQUITECTURA FIJADA
+- Python 3.14.x + Django 6.1.x (versiones parche fijadas y compatibilidad oficial confirmada al instalar).
+- PostgreSQL 18.x.
+- Django Templates + Bootstrap 5 + HTMX para la interfaz inicial.
+- Monolito modular, no microservicios al inicio.
+- Servicios de dominio para reglas complejas; las vistas no concentran lógica de negocio.
+- Git, entorno reproducible, lockfile, settings separados y tests automáticos.
+
+REGLAS OBLIGATORIAS
+- No inventes endpoints, APIs, credenciales, contratos ni certificaciones del SII, MINSAL/SNRE, ISP, CENABAST, convenios u operadores de pago.
+- Si falta acceso externo, crea únicamente una interfaz de adaptador y un mock exclusivo de desarrollo/pruebas. Asegúrate de que el mock se rechace explícitamente en producción.
+- No afirmes cumplimiento legal, tributario ni sanitario; marca los puntos que requieren confirmación oficial, del contador o del director técnico.
+- Dinero: Decimal/NUMERIC, nunca float.
+- Inventario: cada cambio de stock debe tener movimiento auditable. Protegerse contra dos ventas simultáneas de la última unidad con transacciones y bloqueos/restricciones adecuados.
+- Lotes vencidos, retirados, dañados o en cuarentena no pueden venderse en el flujo normal.
+- Mantener snapshots históricos en líneas de venta.
+- Venta, pago y documento tributario tienen estados distintos. Un intento de pago no equivale a pago aprobado; un timeout de documento no se reenvía a ciegas.
+- Corregir ventas/documentos/movimientos con operaciones compensatorias relacionadas; nunca borrarlos para ocultar el historial.
+- No guardar número completo de tarjeta, CVV, contraseñas, secretos o datos sensibles innecesarios en logs.
+- Validar permisos en backend, no solo ocultar botones en la interfaz.
+- Usar datos ficticios en pruebas y staging.
+
+FORMATO DE TRABAJO PARA CADA TAREA
+Antes de editar:
+- indica el ID del backlog;
+- resume reglas y criterios de aceptación;
+- señala los archivos que previsiblemente se modificarán.
+
+Al finalizar:
+- lista archivos creados/modificados y migraciones;
+- informa los comandos realmente ejecutados y sus resultados;
+- indica pruebas añadidas y qué cubren;
+- confirma criterio por criterio qué está cumplido;
+- reporta riesgos y decisiones pendientes;
+- recomienda el siguiente ID del backlog.
+
+No digas que una tarea está terminada si no ejecutaste los tests correspondientes. Si una prueba falla, muestra el error y corrígelo antes de avanzar. Mantén README, .env.example, plan y checklist actualizados. No cambies el stack ni el modelo de datos fundamental sin documentar la razón y el impacto.
+
+PRIMER PASO
+Comienza revisando el plan maestro y prepara una lista corta de supuestos/decisiones que deben confirmarse en la Fase 0. Después inicia con DISC-01 y SETUP-01 cuando proceda. Si el dueño aún no puede responder una pregunta, registra la decisión como pendiente y continúa con tareas que no dependan de ella. No actives venta real, pagos reales, DTE reales ni dispensación regulada hasta pasar las puertas de validación correspondientes.

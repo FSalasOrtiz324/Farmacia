@@ -1,0 +1,165 @@
+{% extends "mockups/_layout.html" %}{% load clp %}
+{% block content %}
+<div class="row g-3">
+  <div class="col-xl-8">
+    <div class="card shadow-sm mb-3"><div class="card-body">
+      <label for="scan" class="form-label fw-semibold mb-1"><i class="bi bi-upc-scan"></i> Código de barras, SKU o nombre <span class="text-muted small">(F2)</span></label>
+      <div class="input-group input-group-lg">
+        <input id="scan" class="form-control" autocomplete="off" placeholder="Escanee o escriba y presione Enter" autofocus>
+        <button class="btn btn-primary" id="scan-btn">Agregar</button>
+      </div>
+      <div id="scan-msg" class="small mt-2" role="status"></div>
+      <div id="suggest" class="list-group mt-2"></div>
+      <div class="small text-muted mt-1">Prueba: <code>7800000000011</code>, <code>DEMO-0003</code>, <code>ibu</code>, <code>crema</code> (sin stock)</div>
+    </div></div>
+
+    <div class="card shadow-sm"><div class="card-body p-0">
+      <table class="table mb-0">
+        <thead class="table-light"><tr><th>Producto</th><th>Cond.</th><th class="text-end">Precio</th><th class="text-center" style="width:150px">Cantidad</th><th class="text-end">Subtotal</th><th></th></tr></thead>
+        <tbody id="cart"><tr id="empty"><td colspan="6" class="text-center text-muted py-5"><i class="bi bi-cart fs-2 d-block"></i>Carrito vacío</td></tr></tbody>
+      </table>
+    </div></div>
+    <div id="rx-alert" class="alert alert-warning mt-3 d-none">
+      <i class="bi bi-file-medical"></i> <strong>Hay productos que requieren receta.</strong>
+      La venta no se podrá confirmar hasta registrar y validar la receta (lo valida un usuario autorizado).
+      <button class="btn btn-sm btn-outline-dark ms-2" data-bs-toggle="modal" data-bs-target="#rxModal">Registrar receta</button>
+    </div>
+  </div>
+
+  <div class="col-xl-4">
+    <div class="card shadow-sm mb-3"><div class="card-body">
+      <div class="d-flex justify-content-between"><span>Subtotal</span><span id="t-sub">$0</span></div>
+      <div class="d-flex justify-content-between text-success"><span>Descuentos</span><span id="t-disc">$0</span></div>
+      <hr><div class="d-flex justify-content-between fs-3 fw-bold"><span>Total</span><span id="t-total">$0</span></div>
+      <div class="small text-muted">El total definitivo lo calcula el servidor al confirmar.</div>
+    </div></div>
+    <div class="card shadow-sm"><div class="card-header bg-white fw-semibold">Pago <span class="text-muted small">(F9)</span></div><div class="card-body">
+      <label class="form-label small mb-1">Efectivo</label>
+      <input id="pay-cash" type="number" min="0" step="10" class="form-control mb-2" value="0">
+      <label class="form-label small mb-1">Tarjeta (terminal)</label>
+      <input id="pay-card" type="number" min="0" step="1" class="form-control mb-2" value="0">
+      <div class="d-flex justify-content-between"><span>Pagado</span><span id="t-paid">$0</span></div>
+      <div class="d-flex justify-content-between fw-semibold"><span id="t-diff-label">Saldo</span><span id="t-diff">$0</span></div>
+      <div class="d-grid gap-2 mt-3">
+        <button id="confirm" class="btn btn-success btn-lg" disabled><i class="bi bi-check2-circle"></i> Confirmar venta</button>
+        <button id="discard" class="btn btn-outline-danger">Descartar carrito (Esc)</button>
+      </div>
+    </div></div>
+  </div>
+</div>
+
+<div class="modal fade" id="rxModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content">
+  <div class="modal-header"><h2 class="modal-title h5">Registrar receta</h2><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body">
+    <div class="row g-2">
+      <div class="col-6"><label class="form-label small">Tipo</label><select class="form-select"><option>Receta simple</option><option>Receta retenida</option><option>Receta cheque</option></select></div>
+      <div class="col-6"><label class="form-label small">Origen</label><select class="form-select"><option>Física</option><option>Electrónica</option></select></div>
+      <div class="col-12"><label class="form-label small">Folio / código</label><input class="form-control" placeholder="RX-DEMO-0000"></div>
+      <div class="col-12"><label class="form-label small">Fecha de emisión</label><input type="date" class="form-control"></div>
+    </div>
+    <p class="small text-muted mt-3 mb-0">Los datos exigibles de paciente y prescriptor están pendientes de definición legal y del director técnico (DISC-07, RX-02).</p>
+  </div>
+  <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button class="btn btn-primary" id="rx-ok" data-bs-dismiss="modal">Marcar como validada (maqueta)</button></div>
+</div></div></div>
+
+<div class="modal fade" id="doneModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content">
+  <div class="modal-header bg-success text-white"><h2 class="modal-title h5"><i class="bi bi-check-circle"></i> Venta registrada (simulada)</h2></div>
+  <div class="modal-body">
+    <table class="table table-sm mb-2">
+      <tr><th>Venta</th><td>V-000232 · <span class="badge text-bg-success">Confirmada</span></td></tr>
+      <tr><th>Pago</th><td><span class="badge text-bg-success">Aprobado (simulado)</span></td></tr>
+      <tr><th>Documento tributario</th><td><span class="badge text-bg-secondary">Pendiente — adaptador simulado</span></td></tr>
+      <tr><th>Vuelto</th><td id="done-change" class="fw-bold"></td></tr>
+    </table>
+    <div class="alert alert-info small mb-0">Se imprimirá un <strong>comprobante interno</strong>. No es una boleta electrónica válida.</div>
+  </div>
+  <div class="modal-footer"><button class="btn btn-primary" data-bs-dismiss="modal" id="next-sale">Siguiente venta (Enter)</button></div>
+</div></div></div>
+{{ pos_catalog_json|json_script:"catalog" }}
+{% endblock %}
+{% block scripts %}
+<script>
+(() => {
+  const catalog = JSON.parse(document.getElementById("catalog").textContent);
+  const fmt = n => "$" + Math.round(n).toLocaleString("es-CL");
+  const $ = id => document.getElementById(id);
+  const cart = new Map();
+  let rxValidated = false;
+
+  function find(q) {
+    q = q.trim().toLowerCase();
+    if (!q) return [];
+    const exact = catalog.filter(p => p.ean === q || p.sku.toLowerCase() === q);
+    return exact.length ? exact : catalog.filter(p => p.name.toLowerCase().includes(q));
+  }
+  function msg(text, cls) { const m = $("scan-msg"); m.textContent = text; m.className = "small mt-2 " + cls; }
+
+  function add(p) {
+    const qty = (cart.get(p.sku)?.qty || 0) + 1;
+    if (qty > p.stock) { msg(`Sin stock vendible suficiente de ${p.name} (disponible: ${p.stock}).`, "text-danger"); return; }
+    cart.set(p.sku, { p, qty }); msg(`Agregado: ${p.name}`, "text-success"); render();
+  }
+
+  function render() {
+    const body = $("cart"); body.querySelectorAll("tr.line").forEach(r => r.remove());
+    $("empty").classList.toggle("d-none", cart.size > 0);
+    let sub = 0, needsRx = false;
+    for (const { p, qty } of cart.values()) {
+      sub += p.price * qty; if (p.condition !== "VD") needsRx = true;
+      const tr = document.createElement("tr"); tr.className = "line";
+      tr.innerHTML = `<td><div class="fw-semibold"></div><div class="small text-muted"></div></td>
+        <td><span class="badge"></span></td><td class="text-end"></td>
+        <td><div class="input-group input-group-sm"><button class="btn btn-outline-secondary" data-a="-">−</button>
+        <input class="form-control text-center" readonly><button class="btn btn-outline-secondary" data-a="+">+</button></div></td>
+        <td class="text-end fw-semibold"></td><td><button class="btn btn-sm btn-link text-danger" data-a="x" title="Quitar"><i class="bi bi-trash"></i></button></td>`;
+      tr.querySelector(".fw-semibold").textContent = p.name;
+      tr.querySelector(".text-muted").textContent = `${p.presentation} · ${p.sku}`;
+      const b = tr.querySelector(".badge"); b.textContent = p.condition;
+      b.className = "badge text-bg-" + ({VD:"success",R:"warning",RR:"orange",RCH:"danger"}[p.condition]);
+      tr.children[2].textContent = fmt(p.price); tr.querySelector("input").value = qty;
+      tr.children[4].textContent = fmt(p.price * qty);
+      tr.addEventListener("click", e => {
+        const a = e.target.closest("[data-a]")?.dataset.a; if (!a) return;
+        if (a === "+") add(p);
+        else { const q = a === "-" ? qty - 1 : 0; q > 0 ? cart.set(p.sku, { p, qty: q }) : cart.delete(p.sku); render(); }
+      });
+      body.appendChild(tr);
+    }
+    $("rx-alert").classList.toggle("d-none", !needsRx || rxValidated);
+    const paid = (+$("pay-cash").value || 0) + (+$("pay-card").value || 0);
+    $("t-sub").textContent = fmt(sub); $("t-total").textContent = fmt(sub); $("t-paid").textContent = fmt(paid);
+    const diff = paid - sub;
+    $("t-diff-label").textContent = diff >= 0 ? "Vuelto" : "Saldo pendiente";
+    $("t-diff").textContent = fmt(Math.abs(diff));
+    $("t-diff").className = diff >= 0 ? "text-success" : "text-danger";
+    $("confirm").disabled = !(cart.size && diff >= 0 && (!needsRx || rxValidated) && (+$("pay-card").value || 0) <= sub);
+    $("done-change").textContent = fmt(Math.max(diff, 0));
+  }
+
+  function submitScan() {
+    const r = find($("scan").value); const s = $("suggest"); s.innerHTML = "";
+    if (r.length === 1) { add(r[0]); $("scan").value = ""; }
+    else if (!r.length) msg("Sin coincidencias.", "text-danger");
+    else { msg(`${r.length} coincidencias, elija una:`, "text-muted");
+      r.forEach(p => { const a = document.createElement("button"); a.className = "list-group-item list-group-item-action";
+        a.textContent = `${p.name} — ${p.presentation} — ${fmt(p.price)} (stock ${p.stock})`;
+        a.onclick = () => { add(p); s.innerHTML = ""; $("scan").value = ""; $("scan").focus(); }; s.appendChild(a); }); }
+  }
+  function reset() { cart.clear(); rxValidated = false; $("pay-cash").value = 0; $("pay-card").value = 0; msg("", ""); render(); $("scan").focus(); }
+
+  $("scan").addEventListener("keydown", e => { if (e.key === "Enter") { e.preventDefault(); submitScan(); } });
+  $("scan-btn").onclick = submitScan;
+  ["pay-cash", "pay-card"].forEach(id => $(id).addEventListener("input", render));
+  $("rx-ok").onclick = () => { rxValidated = true; render(); };
+  $("discard").onclick = reset;
+  $("confirm").onclick = () => bootstrap.Modal.getOrCreateInstance($("doneModal")).show();
+  $("doneModal").addEventListener("hidden.bs.modal", reset);
+  document.addEventListener("keydown", e => {
+    if (e.key === "F2") { e.preventDefault(); $("scan").focus(); }
+    if (e.key === "F9") { e.preventDefault(); $("pay-cash").focus(); $("pay-cash").select(); }
+    if (e.key === "Escape" && !document.querySelector(".modal.show")) reset();
+  });
+  render();
+})();
+</script>
+{% endblock %}

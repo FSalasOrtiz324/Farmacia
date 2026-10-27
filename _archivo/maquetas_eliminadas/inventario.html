@@ -1,0 +1,39 @@
+{% extends "mockups/_layout.html" %}
+{% block content %}
+<ul class="nav nav-tabs mb-3" role="tablist">
+  <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#t-lots">Stock por lote</button></li>
+  <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#t-kardex">Movimientos (kardex)</button></li>
+  <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#t-adjust">Ajuste / conteo</button></li>
+</ul>
+<div class="tab-content">
+  <div class="tab-pane fade show active" id="t-lots">
+    <div class="d-flex gap-2 mb-2 small">
+      <span class="badge text-bg-danger">≤30 días</span><span class="badge text-bg-warning">≤90 días</span><span class="text-muted">Orden FEFO: primero vence, primero sale.</span>
+    </div>
+    <div class="card shadow-sm"><div class="table-responsive"><table class="table mb-0">
+      <thead class="table-light"><tr><th>Producto</th><th>Lote</th><th>Vencimiento</th><th>Ubicación</th><th class="text-end">Cantidad</th><th>Estado</th><th></th></tr></thead>
+      <tbody>{% for lot in lots %}<tr class="{% if lot.days < 0 %}table-danger{% elif lot.days <= 30 %}table-warning{% endif %}">
+        <td>{{ lot.product }}</td><td>{{ lot.lot }}</td>
+        <td>{{ lot.expiry }} <span class="small text-muted">({% if lot.days < 0 %}vencido{% else %}{{ lot.days }} d{% endif %})</span></td>
+        <td>{{ lot.warehouse }}</td><td class="text-end">{{ lot.qty }}</td><td>{% include "mockups/_lot_status.html" %}</td>
+        <td><div class="dropdown"><button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">Acción</button>
+          <ul class="dropdown-menu"><li><a class="dropdown-item" href="#">Enviar a cuarentena</a></li><li><a class="dropdown-item" href="#">Marcar retiro de mercado</a></li><li><a class="dropdown-item" href="#">Transferir</a></li></ul></div></td>
+      </tr>{% endfor %}</tbody></table></div></div>
+  </div>
+  <div class="tab-pane fade" id="t-kardex">
+    <div class="alert alert-light border small"><i class="bi bi-lock"></i> Los movimientos no se editan ni se borran; las correcciones se registran como movimientos compensatorios.</div>
+    <div class="card shadow-sm"><table class="table mb-0"><thead class="table-light"><tr><th>Fecha</th><th>Tipo</th><th>Producto</th><th>Lote</th><th class="text-end">Cant.</th><th>Usuario</th><th>Referencia</th></tr></thead>
+      <tbody>{% for m in movements %}<tr><td>{{ m.when }}</td><td>{{ m.type }}</td><td>{{ m.product }}</td><td>{{ m.lot }}</td><td class="text-end font-monospace">{{ m.qty }}</td><td>{{ m.user }}</td><td>{{ m.ref }}</td></tr>{% endfor %}</tbody></table></div>
+  </div>
+  <div class="tab-pane fade" id="t-adjust">
+    <div class="card shadow-sm" style="max-width:560px"><div class="card-body">
+      <div class="mb-2"><label class="form-label small">Lote</label><select class="form-select">{% for lot in lots %}<option>{{ lot.product }} · {{ lot.lot }} (sistema: {{ lot.qty }})</option>{% endfor %}</select></div>
+      <div class="mb-2"><label class="form-label small">Cantidad contada</label><input type="number" class="form-control" value="11"></div>
+      <div class="mb-2"><label class="form-label small">Motivo (obligatorio)</label><select class="form-select"><option>Conteo físico</option><option>Merma / daño</option><option>Error de registro</option></select></div>
+      <div class="mb-3"><label class="form-label small">Observación</label><textarea class="form-control" rows="2"></textarea></div>
+      <div class="alert alert-warning small">Diferencia: <strong>−1</strong>. Requiere aprobación de un supervisor; quedará en auditoría.</div>
+      <button class="btn btn-primary">Enviar a aprobación</button>
+    </div></div>
+  </div>
+</div>
+{% endblock %}
